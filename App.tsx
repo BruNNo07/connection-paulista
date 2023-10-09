@@ -6,7 +6,6 @@ import { SignUp } from './src/screens/signUp';
 
 
 export default function App() {
-
   return (
     <View className='flex-1'>
       <SignUp />

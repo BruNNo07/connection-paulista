@@ -10,9 +10,9 @@ export function Login() {
       <View className="bg-gray-300 rounded-full w-36 h-36 absolute top-5 right-[-16]"></View>
 
       <View className="flex-1 justify-center w-full">
-        <Text className="text-emerald-500 font-bold text-4xl text-center">Connection</Text>
-        <Text className="text-gray-400 font-bold text-4xl text-center">Paulista</Text>
-        
+        <View className="w-full items-center justify-center">
+          <Image source={require('../../assets/logo.png')}/>
+        </View>
         <Text className="mb-2 text-md font-bold mt-8">Login</Text>
         <View className="w-full px-3 py-2 bg-gray-700 flex-row rounded-lg">
           <EnvelopeSimple size={24} color="white"/>
@@ -29,15 +29,11 @@ export function Login() {
           <Text className="font-bold text-lg text-white">Login</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity className="px-4 py-2 bg-blue-500 w-full items-center justify-center mt-4 rounded-lg flex-row">
-          <Text className="font-bold text-lg text-white mr-2">Login com o Google</Text>
-          <GoogleChromeLogo size={24} color="white"  />
+        <TouchableOpacity className="px-4 py-2 bg-blue-500 w-full items-center justify-center mt-6 rounded-lg">
+          <Text className="font-bold text-lg text-white">Cadastre-se</Text>
         </TouchableOpacity>
         
       </View>
-
-
-
     </View>
   )
 }
