@@ -17,7 +17,6 @@ export function AppRoutes(){
         name='signUp'
         component={SignUp}
       />
-
     </Navigator>
   )
 }

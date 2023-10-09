@@ -1,8 +1,11 @@
+import { useNavigation } from "@react-navigation/native";
 import { EnvelopeSimple, GoogleChromeLogo, Lock } from "phosphor-react-native";
 import React from "react";
 import { View ,Text,TouchableOpacity,Image,TextInput } from "react-native";
 
 export function Login() {
+  const {navigate} = useNavigation()
+
   return(
     <View className="flex-1 items-center bg-white bg-cover p-4 relative">
       <View className="bg-gray-300 rounded-full w-36 h-36 absolute top-12 left-4"></View>
@@ -10,10 +13,10 @@ export function Login() {
       <View className="bg-gray-300 rounded-full w-36 h-36 absolute top-5 right-[-16]"></View>
 
       <View className="flex-1 justify-center w-full">
-        <View className="w-full items-center justify-center">
+        <View className="flex-1 items-center justify-center">
           <Image source={require('../../assets/logo.png')}/>
         </View>
-        <Text className="mb-2 text-md font-bold mt-8">Login</Text>
+        <Text className="mb-2 text-md font-bold">Login</Text>
         <View className="w-full px-3 py-2 bg-gray-700 flex-row rounded-lg">
           <EnvelopeSimple size={24} color="white"/>
           <TextInput placeholder="joao@email.com" className="text-white ml-2" placeholderTextColor='#d9d9d9'/>
@@ -29,7 +32,10 @@ export function Login() {
           <Text className="font-bold text-lg text-white">Login</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity className="px-4 py-2 bg-blue-500 w-full items-center justify-center mt-6 rounded-lg">
+        <TouchableOpacity 
+          className="px-4 py-2 bg-blue-500 w-full items-center justify-center mt-4 rounded-lg"
+          onPress={() => navigate('signUp')}
+        >
           <Text className="font-bold text-lg text-white">Cadastre-se</Text>
         </TouchableOpacity>
         
