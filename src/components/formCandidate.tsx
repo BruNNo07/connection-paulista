@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View ,Text,TouchableOpacity,Image,TextInput, Alert } from "react-native";
+import { View ,Text,TouchableOpacity,Image,TextInput, Alert, ActivityIndicator } from "react-native";
 import { useForm, Controller } from 'react-hook-form'
 import { CreateUser } from "../firebase/functions/auth";
 import { useNavigation } from "@react-navigation/native";
@@ -44,7 +44,7 @@ export function FormCandidate(){
     <View className="space-y-2">
       <View className="flex-row w-full justify-between space-x-2">
         <View className="flex-1 space-y-1">
-          <Text>Nome</Text>
+          <Text className="text-gray-100 font-semibold">Nome</Text>
           <Controller
             control={control}
             name="name"
@@ -52,13 +52,13 @@ export function FormCandidate(){
               required: 'Campo obrigatório'
             }}
             render={({field: {onChange}}) => (
-              <TextInput placeholder="João" className="text-white bg-gray-700 px-2 py-1 rounded-lg" placeholderTextColor='#d9d9d9' onChangeText={onChange}/>
+              <TextInput placeholder="João" className="text-zinc-900 bg-gray-100 px-2 py-1 rounded-lg" placeholderTextColor='gray' onChangeText={onChange}/>
             )}
           />
           {errors.name?.message && <Text className="text-xs text-red-500">* {errors.name?.message}</Text>}
         </View>
         <View className="flex-1 space-y-1">
-          <Text>Sobrenome</Text>
+          <Text className="text-gray-100 font-semibold">Sobrenome</Text>
           <Controller
             control={control}
             name="lastName"
@@ -66,7 +66,7 @@ export function FormCandidate(){
               required: 'Campo obrigatório'
             }}
             render={({field: {onChange}}) => (
-              <TextInput placeholder="Silva" className="text-white bg-gray-700 px-2 py-1 rounded-lg" placeholderTextColor='#d9d9d9' onChangeText={onChange}/>
+              <TextInput placeholder="Silva" className="text-zinc-900 bg-gray-100 px-2 py-1 rounded-lg" placeholderTextColor='gray' onChangeText={onChange}/>
             )}
           />
           {errors.lastName?.message && <Text className="text-xs text-red-500">* {errors.lastName?.message}</Text>}
@@ -74,7 +74,7 @@ export function FormCandidate(){
       </View>
       <View className="flex-row w-full justify-between space-x-2">
         <View className="flex-1 space-y-1">
-          <Text>CPF</Text>
+          <Text className="text-gray-100 font-semibold">CPF</Text>
           <Controller
             control={control}
             name="cpf"
@@ -86,7 +86,7 @@ export function FormCandidate(){
               }
             }}
             render={({field: {onChange,value}}) => (
-              <TextInput placeholder="000.000.000-00" className="text-white bg-gray-700 px-2 py-1 rounded-lg" placeholderTextColor='#d9d9d9' onEndEditing={() => setCpf(formatCPF(value))} onChangeText={onChange}/>
+              <TextInput placeholder="000.000.000-00" className="text-zinc-900 bg-gray-100 px-2 py-1 rounded-lg" placeholderTextColor='gray' onEndEditing={() => setCpf(formatCPF(value))} onChangeText={onChange}/>
             )}
           />
           {errors.cpf?.message && <Text className="text-xs text-red-500">* {errors.cpf?.message}</Text>}
@@ -94,7 +94,7 @@ export function FormCandidate(){
       </View>
       <View className="flex-row w-full justify-between space-x-2">
         <View className="flex-1 space-y-1">
-          <Text>Telefone</Text>
+          <Text className="text-gray-100 font-semibold">Telefone</Text>
           <Controller
             control={control}
             name="phone"
@@ -106,7 +106,7 @@ export function FormCandidate(){
               }
             }}
             render={({field: {onChange}}) => (
-              <TextInput placeholder="(11) 98888-7777" className="text-white bg-gray-700 px-2 py-1 rounded-lg" placeholderTextColor='#d9d9d9' onChangeText={onChange}/>
+              <TextInput placeholder="(11) 98888-7777" className="text-zinc-900 bg-gray-100 px-2 py-1 rounded-lg" placeholderTextColor='gray' onChangeText={onChange}/>
             )}
           />
           {errors.phone?.message && <Text className="text-xs text-red-500">* {errors.phone?.message}</Text>}
@@ -114,7 +114,7 @@ export function FormCandidate(){
       </View>
       <View className="flex-row w-full justify-between space-x-2">
         <View className="flex-1 space-y-1">
-          <Text>E-mail</Text>
+          <Text className="text-gray-100 font-semibold">E-mail</Text>
           <Controller
             control={control}
             name="email"
@@ -126,7 +126,7 @@ export function FormCandidate(){
               }
             }}
             render={({field: {onChange}}) => (
-              <TextInput placeholder="joao.silva@gmail.com" className="text-white bg-gray-700 px-2 py-1 rounded-lg" placeholderTextColor='#d9d9d9' onChangeText={onChange}/>
+              <TextInput placeholder="joao.silva@gmail.com" className="text-zinc-900 bg-gray-100 px-2 py-1 rounded-lg" placeholderTextColor='gray' onChangeText={onChange}/>
             )}
           />
           {errors.email?.message && <Text className="text-xs text-red-500">* {errors.email?.message}</Text>}
@@ -134,7 +134,7 @@ export function FormCandidate(){
       </View>
       <View className="flex-row w-full justify-between space-x-2">
         <View className="flex-1 space-y-1">
-          <Text>Senha</Text>
+          <Text className="text-gray-100 font-semibold">Senha</Text>
           <Controller
             control={control}
             name="password"
@@ -146,7 +146,7 @@ export function FormCandidate(){
               }
             }}
             render={({field: {onChange}}) => (
-              <TextInput placeholder="******" className="text-white bg-gray-700 px-2 py-1 rounded-lg" placeholderTextColor='#d9d9d9' secureTextEntry onChangeText={onChange}/>
+              <TextInput placeholder="******" className="text-zinc-900 bg-gray-100 px-2 py-1 rounded-lg" placeholderTextColor='gray' secureTextEntry onChangeText={onChange}/>
             )}
           />
           {errors.password?.message && <Text className="text-xs text-red-500">* {errors.password?.message}</Text>}
@@ -154,7 +154,7 @@ export function FormCandidate(){
       </View>
       <View className="flex-row w-full justify-between space-x-2 mb-2">
         <View className="flex-1 space-y-1">
-          <Text>Confirmar Senha</Text>
+          <Text className="text-gray-100 font-semibold">Confirmar Senha</Text>
           <Controller
             control={control}
             name="passwordConfirm"
@@ -166,19 +166,30 @@ export function FormCandidate(){
               }
             }}
             render={({field: {onChange}}) => (
-              <TextInput placeholder="******" className="text-white bg-gray-700 px-2 py-1 rounded-lg" placeholderTextColor='#d9d9d9' secureTextEntry onChangeText={onChange}/>
+              <TextInput placeholder="******" className="text-zinc-900 bg-gray-100 px-2 py-1 rounded-lg" placeholderTextColor='gray' secureTextEntry onChangeText={onChange}/>
             )}
           />
           {errors.passwordConfirm?.message && <Text className="text-xs text-red-500">* {errors.passwordConfirm?.message}</Text>}
         </View>
       </View>
-      <TouchableOpacity 
-        className="w-full bg-emerald-500 items-center justify-center py-3 rounded-lg disabled:bg-emerald-700"
-        onPress={handleSubmit(submitForm)}
-        disabled={isSubmitting}
-      >
-        <Text className="text-white font-bold">Cadastrar</Text>
-      </TouchableOpacity>
+      {
+      isSubmitting ? (
+        <TouchableOpacity 
+          className="w-full flex-row space-x-2 bg-green-500 items-center justify-center py-3 rounded-lg"
+          onPress={handleSubmit(submitForm)}
+        > 
+          <ActivityIndicator color={'black'}/>
+          <Text className="text-zinc-900 font-bold">Cadastrar</Text>
+        </TouchableOpacity>
+      ):(
+        <TouchableOpacity 
+          className="w-full flex-row space-x-2 bg-green-500 items-center justify-center py-3 rounded-lg"
+          onPress={handleSubmit(submitForm)}
+        > 
+          <Text className="text-zinc-900 font-bold">Cadastrar</Text>
+        </TouchableOpacity>
+      )
+    }
     </View>
   )
 }

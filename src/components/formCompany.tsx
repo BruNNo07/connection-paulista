@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View ,Text,TouchableOpacity,Image,TextInput, Alert } from "react-native";
+import { View ,Text,TouchableOpacity,Image,TextInput, Alert, ActivityIndicator } from "react-native";
 import { useForm, Controller } from 'react-hook-form'
 import { useNavigation } from "@react-navigation/native";
 import { CreateUser } from "../firebase/functions/auth";
@@ -20,7 +20,7 @@ export type FormCompanyData = {
 }
 
 export function FormCompany(){
-  const {control, handleSubmit, formState:{ errors }, getValues} = useForm<FormCompanyData>()
+  const {control, handleSubmit, formState:{ errors, isSubmitting }, getValues} = useForm<FormCompanyData>()
 
   const {navigate} = useNavigation()
   
@@ -47,7 +47,7 @@ export function FormCompany(){
   <View className="space-y-2">
     <View className="flex-row w-full justify-between space-x-2">
       <View className="flex-1 space-y-1">
-        <Text>Nome da Empresa</Text>
+        <Text className="text-gray-100 font-semibold">Nome da Empresa</Text>
         <Controller
           control={control}
           name="companyName"
@@ -57,8 +57,8 @@ export function FormCompany(){
           render={({field: {onChange}}) => (
             <TextInput 
               placeholder="Connection Paulista" 
-              className="text-white bg-gray-700 px-2 py-1 rounded-lg"
-              placeholderTextColor='#d9d9d9' 
+              className="text-zinc-900 bg-gray-100 px-2 py-1 rounded-lg"
+              placeholderTextColor='gray' 
               onChangeText={onChange} 
             />
           )}
@@ -68,7 +68,7 @@ export function FormCompany(){
     </View>
     <View className="flex-row w-full justify-between space-x-2">
       <View className="flex-1 space-y-1">
-        <Text>Endereço</Text>
+        <Text className="text-gray-100 font-semibold">Endereço</Text>
         <Controller
           control={control}
           name="companyAdress"
@@ -78,8 +78,8 @@ export function FormCompany(){
           render={({field: {onChange}}) => (
             <TextInput 
               placeholder="Av. Paulista"
-               className="text-white bg-gray-700 px-2 py-1 rounded-lg" 
-              placeholderTextColor='#d9d9d9' 
+               className="text-zinc-900 bg-gray-100 px-2 py-1 rounded-lg" 
+              placeholderTextColor='gray' 
               onChangeText={onChange}
             />
           )}
@@ -87,7 +87,7 @@ export function FormCompany(){
         {errors.companyAdress?.message && <Text className="text-xs text-red-500">* {errors.companyAdress?.message}</Text>}
       </View>
       <View className="space-y-1">
-        <Text>Nª</Text>
+        <Text className="text-gray-100 font-semibold">Nª</Text>
         <Controller
           control={control}
           name="companyNumber"
@@ -97,8 +97,8 @@ export function FormCompany(){
           render={({field: {onChange}}) => (
             <TextInput 
             placeholder="00" 
-            className="text-white bg-gray-700 px-2 py-1 rounded-lg" 
-            placeholderTextColor='#d9d9d9' 
+            className="text-zinc-900 bg-gray-100 px-2 py-1 rounded-lg" 
+            placeholderTextColor='gray' 
             keyboardType="number-pad"
             onChangeText={onChange}
             />
@@ -109,7 +109,7 @@ export function FormCompany(){
     </View>
     <View className="flex-row w-full justify-between space-x-2">
       <View className="flex-1 space-y-1">
-        <Text>Bairro</Text>
+        <Text className="text-gray-100 font-semibold">Bairro</Text>
         <Controller
           control={control}
           name="companyNeighborhood"
@@ -119,8 +119,8 @@ export function FormCompany(){
           render={({field: {onChange}}) => (
             <TextInput 
               placeholder="Bela Vista"
-              className="text-white bg-gray-700 px-2 py-1 rounded-lg" 
-              placeholderTextColor='#d9d9d9'
+              className="text-zinc-900 bg-gray-100 px-2 py-1 rounded-lg" 
+              placeholderTextColor='gray'
               onChangeText={onChange}
             />
           )}
@@ -128,15 +128,15 @@ export function FormCompany(){
         {errors.companyNeighborhood?.message && <Text className="text-xs text-red-500">* {errors.companyNeighborhood?.message}</Text>}
       </View>
       <View className="flex-1 space-y-1">
-        <Text>Complemento</Text>
+        <Text className="text-gray-100 font-semibold">Complemento</Text>
         <Controller
           control={control}
           name="companyComplement"
           render={({field: {onChange}}) => (
             <TextInput 
               placeholder="Apto N°:1"
-              className="text-white bg-gray-700 px-2 py-1 rounded-lg"
-              placeholderTextColor='#d9d9d9' 
+              className="text-zinc-900 bg-gray-100 px-2 py-1 rounded-lg"
+              placeholderTextColor='gray' 
               keyboardType="number-pad"
               onChangeText={onChange}
             />
@@ -147,7 +147,7 @@ export function FormCompany(){
     </View>
     <View className="flex-row w-full justify-between space-x-2">
       <View className="flex-1 space-y-1">
-        <Text>Cidade</Text>
+        <Text className="text-gray-100 font-semibold">Cidade</Text>
         <Controller
           control={control}
           name="companyCity"
@@ -157,8 +157,8 @@ export function FormCompany(){
           render={({field: {onChange}}) => (
             <TextInput 
               placeholder="São Paulo"
-              className="text-white bg-gray-700 px-2 py-1 rounded-lg" 
-              placeholderTextColor='#d9d9d9'
+              className="text-zinc-900 bg-gray-100 px-2 py-1 rounded-lg" 
+              placeholderTextColor='gray'
               onChangeText={onChange}
             />
           )}
@@ -166,15 +166,15 @@ export function FormCompany(){
         {errors.companyCity?.message && <Text className="text-xs text-red-500">* {errors.companyCity?.message}</Text>}
       </View>
       <View className="flex-1 space-y-1">
-        <Text>Estado</Text>
+        <Text className="text-gray-100 font-semibold">Estado</Text>
         <Controller
           control={control}
           name="companyAdressState"
           render={({field: {onChange}}) => (
             <TextInput 
               placeholder="São Paulo"
-              className="text-white bg-gray-700 px-2 py-1 rounded-lg"
-              placeholderTextColor='#d9d9d9' 
+              className="text-zinc-900 bg-gray-100 px-2 py-1 rounded-lg"
+              placeholderTextColor='gray' 
               keyboardType="number-pad"
               onChangeText={onChange}
             />
@@ -185,7 +185,7 @@ export function FormCompany(){
     </View>
     <View className="flex-row w-full justify-between space-x-2">
       <View className="flex-1 space-y-1">
-        <Text>CNPJ</Text>
+        <Text className="text-gray-100 font-semibold">CNPJ</Text>
         <Controller
           control={control}
           name="companyCNPJ"
@@ -199,8 +199,8 @@ export function FormCompany(){
           render={({field: {onChange}}) => (
             <TextInput 
               placeholder="00.000.000/0001-00" 
-              className="text-white bg-gray-700 px-2 py-1 rounded-lg" 
-              placeholderTextColor='#d9d9d9' 
+              className="text-zinc-900 bg-gray-100 px-2 py-1 rounded-lg" 
+              placeholderTextColor='gray' 
               onChangeText={onChange}
             />
           )}
@@ -210,7 +210,7 @@ export function FormCompany(){
     </View>
     <View className="flex-row w-full justify-between space-x-2">
       <View className="flex-1 space-y-1">
-        <Text>E-mail</Text>
+        <Text className="text-gray-100 font-semibold">E-mail</Text>
         <Controller
           control={control}
           name="email"
@@ -224,8 +224,8 @@ export function FormCompany(){
           render={({field: {onChange}}) => (
             <TextInput 
               placeholder="joao.silva@gmail.com"
-              className="text-white bg-gray-700 px-2 py-1 rounded-lg" 
-              placeholderTextColor='#d9d9d9'
+              className="text-zinc-900 bg-gray-100 px-2 py-1 rounded-lg" 
+              placeholderTextColor='gray'
               onChangeText={onChange}
             />
           )}
@@ -235,7 +235,7 @@ export function FormCompany(){
     </View>
     <View className="flex-row w-full justify-between space-x-2">
       <View className="flex-1 space-y-1">
-        <Text>Senha</Text>
+        <Text className="text-gray-100 font-semibold">Senha</Text>
         <Controller
           control={control}
           name="password"
@@ -249,8 +249,8 @@ export function FormCompany(){
           render={({field: {onChange}}) => (
             <TextInput 
               placeholder="******"
-              className="text-white bg-gray-700 px-2 py-1 rounded-lg" 
-              placeholderTextColor='#d9d9d9'
+              className="text-zinc-900 bg-gray-100 px-2 py-1 rounded-lg" 
+              placeholderTextColor='gray'
               onChangeText={onChange}
               secureTextEntry
             />
@@ -261,7 +261,7 @@ export function FormCompany(){
     </View>
     <View className="flex-row w-full justify-between space-x-2 mb-2">
       <View className="flex-1 space-y-1">
-        <Text>Confirmar Senha</Text>
+        <Text className="text-gray-100 font-semibold">Confirmar Senha</Text>
         <Controller
           control={control}
           name="passwordConfirm"
@@ -275,8 +275,8 @@ export function FormCompany(){
           render={({field: {onChange}}) => (
             <TextInput
               placeholder="******"
-              className="text-white bg-gray-700 px-2 py-1 rounded-lg" 
-              placeholderTextColor='#d9d9d9'
+              className="text-zinc-900 bg-gray-100 px-2 py-1 rounded-lg" 
+              placeholderTextColor='gray'
               onChangeText={onChange}
               secureTextEntry
             />
@@ -285,12 +285,25 @@ export function FormCompany(){
         {errors.passwordConfirm?.message && <Text className="text-xs text-red-500">* {errors.passwordConfirm?.message}</Text>}
       </View>
     </View>
-    <TouchableOpacity 
-      className="w-full bg-green-500 items-center justify-center py-3 rounded-lg"
-      onPress={handleSubmit(submitForm)}
-    >
-      <Text className="text-white font-bold">Cadastrar</Text>
-    </TouchableOpacity>
+    {
+      isSubmitting ? (
+        <TouchableOpacity 
+          className="w-full flex-row space-x-2 bg-green-500 items-center justify-center py-3 rounded-lg"
+          onPress={handleSubmit(submitForm)}
+        > 
+          <ActivityIndicator color={'black'}/>
+          <Text className="text-zinc-900 font-bold">Cadastrar</Text>
+        </TouchableOpacity>
+      ):(
+        <TouchableOpacity 
+          className="w-full flex-row space-x-2 bg-green-500 items-center justify-center py-3 rounded-lg"
+          onPress={handleSubmit(submitForm)}
+        > 
+          <Text className="text-zinc-900 font-bold">Cadastrar</Text>
+        </TouchableOpacity>
+      )
+    }
+    
   </View>
   )
 }

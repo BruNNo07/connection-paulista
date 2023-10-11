@@ -41,10 +41,14 @@ export function Login() {
   }
   
   return(
-    <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} keyboardVerticalOffset={20} className="flex-1 bg-white bg-cover relative">
-      <View className="bg-gray-300 rounded-full w-36 h-36 absolute top-12 left-4"></View>
-      <View className="bg-gray-400/80 rounded-full w-36 h-36 absolute top-[-5] left-[-12]"></View>
-      <View className="bg-gray-300 rounded-full w-36 h-36 absolute top-5 right-[-16]"></View>
+    <KeyboardAvoidingView 
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'} 
+      keyboardVerticalOffset={20} 
+      className="flex-1 bg-zinc-900 bg-cover relative"
+    >
+      <View className="bg-zinc-800 rounded-full w-36 h-36 absolute top-12 left-4"></View>
+      <View className="bg-zinc-800/70 rounded-full w-36 h-36 absolute top-[-5] left-[-12]"></View>
+      <View className="bg-zinc-700 rounded-full w-36 h-36 absolute top-5 right-[-16]"></View>
 
       <View className="flex-1 justify-center w-full p-4">
         <View className="flex-1 items-center justify-center my-36">
@@ -53,9 +57,9 @@ export function Login() {
         style={{ width: 380, height: 380 }}
         />
         </View>
-        <Text className="mb-2 text-md font-bold">Login</Text>
-        <View className="w-full px-3 py-2 bg-gray-700 flex-row rounded-lg">
-          <EnvelopeSimple size={24} color="white"/>
+        <Text className="mb-2 text-md font-bold text-gray-100">Login</Text>
+        <View className="w-full px-3 py-2 bg-gray-100 flex-row rounded-lg items-center">
+          <EnvelopeSimple size={24} color="black"/>
           <Controller
             control={control}
             name="user"
@@ -63,14 +67,20 @@ export function Login() {
               required: 'Campo obrigatório'
             }}
             render={({field: {onChange}}) => (
-              <TextInput placeholder="joao@email.com" className="text-white ml-2" placeholderTextColor='#d9d9d9' onChangeText={onChange} keyboardType="email-address" />
+              <TextInput 
+                placeholder="joao@email.com"
+                className="text-zinc-900 ml-2" 
+                placeholderTextColor='gray' 
+                onChangeText={onChange} 
+                keyboardType="email-address" 
+              />
             )}
           />
         </View>
 
-        <Text className="mb-2 text-md font-bold mt-4">Senha</Text>
-        <View className="w-full px-3 py-2 bg-gray-700 flex-row rounded-lg">
-          <Lock size={24} color="white"/>
+        <Text className="mb-2 text-md font-bold mt-4 text-gray-100">Senha</Text>
+        <View className="w-full px-3 py-2 bg-gray-100 flex-row rounded-lg items-center">
+          <Lock size={24} color="black"/>
           <Controller
             control={control}
             name="password"
@@ -78,7 +88,13 @@ export function Login() {
               required: 'Campo obrigatório'
             }}
             render={({field: {onChange}}) => (
-              <TextInput placeholder="*******" className="text-white ml-2" placeholderTextColor='#d9d9d9' onChangeText={onChange} secureTextEntry/>
+              <TextInput 
+                placeholder="*******"
+                className="text-zinc-900 ml-2"
+                placeholderTextColor='gray'
+                onChangeText={onChange}
+                secureTextEntry
+               />
             )}
           />
         </View>
