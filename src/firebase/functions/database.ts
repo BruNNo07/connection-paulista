@@ -8,7 +8,7 @@ export async function CreateCandidateOnDb(userId: string, data: FormCandidateDat
     role: 'candidate',
     name: data.name,
     lastName: data.lastName,
-    email: data.email,
+    email: data.email.toLowerCase(),
     cpf: data.cpf,
     phone: data.phone
   });
@@ -25,7 +25,7 @@ export async function CreateCompanyOnDb(userId: string, data: FormCompanyData ) 
     adressState: data.companyAdressState,
     adressCity: data.companyCity,
     CNPJ: data.companyCNPJ,
-    email: data.email
+    email: data.email.toLowerCase()
   });
 }
 

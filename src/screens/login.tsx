@@ -1,9 +1,11 @@
 import { useNavigation } from "@react-navigation/native";
 import { EnvelopeSimple, GoogleChromeLogo, Lock } from "phosphor-react-native";
-import React from "react";
+import React, { useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { View ,Text,TouchableOpacity,Image,TextInput,ScrollView, KeyboardAvoidingView, Platform } from "react-native";
 import { LoginUser } from "../firebase/functions/auth";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { USER_ID } from "../firebase/AsyncStorage-Keys";
 
 export type FormLoginData = {
   user: string
@@ -11,7 +13,21 @@ export type FormLoginData = {
 }
 
 export function Login() {
+
+
   const {navigate} = useNavigation()
+
+  async function fetchUserAsyncStorage() {
+    const userId = await AsyncStorage.getItem(USER_ID)
+
+    if (userId !== null ) {
+      navigate('jobs')
+    }
+  }
+
+  useEffect(() => {
+    fetchUserAsyncStorage()
+  },[])
 
   const {control, handleSubmit, formState: {errors}} = useForm<FormLoginData>()
 
