@@ -48,8 +48,10 @@ export function Login() {
 
       <View className="flex-1 justify-center w-full p-4">
         <View className="flex-1 items-center justify-center my-36">
-          <Text className="text-4xl font-bold text-emerald-500">Connection</Text>
-          <Text className="text-4xl font-bold text-gray-700">Paulista</Text>
+        <Image
+        source={require('../../assets/Logo.png')}
+        style={{ width: 380, height: 380 }}
+        />
         </View>
         <Text className="mb-2 text-md font-bold">Login</Text>
         <View className="w-full px-3 py-2 bg-gray-700 flex-row rounded-lg">

@@ -56,7 +56,7 @@ export function FormCompany(){
           }}
           render={({field: {onChange}}) => (
             <TextInput 
-              placeholder="" 
+              placeholder="Connection Paulista" 
               className="text-white bg-gray-700 px-2 py-1 rounded-lg"
               placeholderTextColor='#d9d9d9' 
               onChangeText={onChange} 
@@ -77,7 +77,7 @@ export function FormCompany(){
           }}
           render={({field: {onChange}}) => (
             <TextInput 
-              placeholder=""
+              placeholder="Av. Paulista"
                className="text-white bg-gray-700 px-2 py-1 rounded-lg" 
               placeholderTextColor='#d9d9d9' 
               onChangeText={onChange}
@@ -96,7 +96,7 @@ export function FormCompany(){
           }}
           render={({field: {onChange}}) => (
             <TextInput 
-            placeholder="" 
+            placeholder="00" 
             className="text-white bg-gray-700 px-2 py-1 rounded-lg" 
             placeholderTextColor='#d9d9d9' 
             keyboardType="number-pad"
@@ -118,7 +118,7 @@ export function FormCompany(){
           }}
           render={({field: {onChange}}) => (
             <TextInput 
-              placeholder=""
+              placeholder="Bela Vista"
               className="text-white bg-gray-700 px-2 py-1 rounded-lg" 
               placeholderTextColor='#d9d9d9'
               onChangeText={onChange}
@@ -134,7 +134,7 @@ export function FormCompany(){
           name="companyComplement"
           render={({field: {onChange}}) => (
             <TextInput 
-              placeholder=""
+              placeholder="Apto N°:1"
               className="text-white bg-gray-700 px-2 py-1 rounded-lg"
               placeholderTextColor='#d9d9d9' 
               keyboardType="number-pad"
@@ -156,7 +156,7 @@ export function FormCompany(){
           }}
           render={({field: {onChange}}) => (
             <TextInput 
-              placeholder=""
+              placeholder="São Paulo"
               className="text-white bg-gray-700 px-2 py-1 rounded-lg" 
               placeholderTextColor='#d9d9d9'
               onChangeText={onChange}
@@ -172,7 +172,7 @@ export function FormCompany(){
           name="companyAdressState"
           render={({field: {onChange}}) => (
             <TextInput 
-              placeholder=""
+              placeholder="São Paulo"
               className="text-white bg-gray-700 px-2 py-1 rounded-lg"
               placeholderTextColor='#d9d9d9' 
               keyboardType="number-pad"
@@ -198,7 +198,7 @@ export function FormCompany(){
           }}
           render={({field: {onChange}}) => (
             <TextInput 
-              placeholder="" 
+              placeholder="00.000.000/0001-00" 
               className="text-white bg-gray-700 px-2 py-1 rounded-lg" 
               placeholderTextColor='#d9d9d9' 
               onChangeText={onChange}
