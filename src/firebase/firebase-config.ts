@@ -1,13 +1,14 @@
 import { initializeApp } from "firebase/app";
+import { getDatabase } from 'firebase/database'
 
 const firebaseConfig = {
-  apiKey: "AIzaSyCMqn0fnNgNHS16iMTeQWSwQwFMnNQtrWk",
-  authDomain: "connection-paulista.firebaseapp.com",
-  databaseURL: "https://connection-paulista-default-rtdb.firebaseio.com",
-  projectId: "connection-paulista",
-  storageBucket: "connection-paulista.appspot.com",
-  messagingSenderId: "599203550662",
-  appId: "1:599203550662:web:c656ab8838fd5238ff4ec7"
+  apiKey: "AIzaSyBYE-2A3jtqbVmheqR2vDRxXy3xT7M67Xc",
+  authDomain: "connection-paulista-3cd9b.firebaseapp.com",
+  projectId: "connection-paulista-3cd9b",
+  storageBucket: "connection-paulista-3cd9b.appspot.com",
+  messagingSenderId: "313744264404",
+  appId: "1:313744264404:web:180640ede42b6d1dcf7f41"
 };
 
 export const app = initializeApp(firebaseConfig);
+export const db = getDatabase(app);

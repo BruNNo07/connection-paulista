@@ -7,11 +7,11 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const auth = getAuth(app);
 
-
 export async function CreateUser(email: string, password: string) {
   try {
     const user = await createUserWithEmailAndPassword(auth, email, password)
     console.log('conta criada')
+    return user.user.uid
   } catch (error) {
     throw error
   } 

@@ -64,7 +64,7 @@ export function Jobs(){
         
         <View className="space-y-2 my-5">
           <TextInput className="w-full bg-gray-800 rounded-lg p-2 text-white" placeholderTextColor={'gray'} placeholder="Filtre por: Titulo" onChangeText={setFilterTitle}/>
-          <TextInput className="w-full bg-gray-800 rounded-lg p-2 text-white" placeholderTextColor={'gray'} placeholder="Filtre por: Skills"  onChangeText={setFilterSkills}/>
+          <TextInput className="w-full bg-gray-800 rounded-lg p-2 text-white" placeholderTextColor={'gray'} placeholder="Filtre por: Skills" onChangeText={setFilterSkills}/>
         </View>
 
         <FlatList 

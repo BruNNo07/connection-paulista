@@ -3,6 +3,7 @@ import { View ,Text,TouchableOpacity,Image,TextInput, Alert } from "react-native
 import { useForm, Controller } from 'react-hook-form'
 import { useNavigation } from "@react-navigation/native";
 import { CreateUser } from "../firebase/functions/auth";
+import { CreateCompanyOnDb } from "../firebase/functions/database";
 
 export type FormCompanyData = {
   companyName: string
@@ -11,6 +12,8 @@ export type FormCompanyData = {
   companyNeighborhood: string
   companyComplement: string
   companyCNPJ: string
+  companyCity: string
+  companyAdressState: string
   email: string
   password: string
   passwordConfirm: string
@@ -30,7 +33,8 @@ export function FormCompany(){
     }
 
     try {
-      await CreateUser(data.email,data.password)
+      const userId = await CreateUser(data.email,data.password)
+      await CreateCompanyOnDb(userId, data)
       Alert.alert('Cadastro', 'Cadastro Efetuado com sucesso, favor faça seu Login.')
     } catch (error) {
       Alert.alert('Cadastro', 'Não foi possível realizar o cadastro, você ja possui uma conta com esse e-mail. Por favor realize seu login.')
@@ -139,6 +143,44 @@ export function FormCompany(){
           )}
         />
         {errors.companyComplement?.message && <Text className="text-xs text-red-500">* {errors.companyComplement?.message}</Text>}
+      </View>
+    </View>
+    <View className="flex-row w-full justify-between space-x-2">
+      <View className="flex-1 space-y-1">
+        <Text>Cidade</Text>
+        <Controller
+          control={control}
+          name="companyCity"
+          rules={{
+            required: 'Campo obrigatório'
+          }}
+          render={({field: {onChange}}) => (
+            <TextInput 
+              placeholder=""
+              className="text-white bg-gray-700 px-2 py-1 rounded-lg" 
+              placeholderTextColor='#d9d9d9'
+              onChangeText={onChange}
+            />
+          )}
+        />
+        {errors.companyCity?.message && <Text className="text-xs text-red-500">* {errors.companyCity?.message}</Text>}
+      </View>
+      <View className="flex-1 space-y-1">
+        <Text>Estado</Text>
+        <Controller
+          control={control}
+          name="companyAdressState"
+          render={({field: {onChange}}) => (
+            <TextInput 
+              placeholder=""
+              className="text-white bg-gray-700 px-2 py-1 rounded-lg"
+              placeholderTextColor='#d9d9d9' 
+              keyboardType="number-pad"
+              onChangeText={onChange}
+            />
+          )}
+        />
+        {errors.companyAdressState?.message && <Text className="text-xs text-red-500">* {errors.companyAdressState?.message}</Text>}
       </View>
     </View>
     <View className="flex-row w-full justify-between space-x-2">

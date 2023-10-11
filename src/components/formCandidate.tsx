@@ -3,6 +3,8 @@ import { View ,Text,TouchableOpacity,Image,TextInput, Alert } from "react-native
 import { useForm, Controller } from 'react-hook-form'
 import { CreateUser } from "../firebase/functions/auth";
 import { useNavigation } from "@react-navigation/native";
+import { CreateCandidateOnDb } from "../firebase/functions/database";
+import { formatCPF } from "../utils/functions";
 
 export type FormCandidateData ={
   name: string
@@ -15,6 +17,7 @@ export type FormCandidateData ={
 }
 
 export function FormCandidate(){
+  const [cpf, setCpf] = useState('')
   const {control, handleSubmit, formState: {errors, isSubmitting },getValues} = useForm<FormCandidateData>()
 
   const {navigate} = useNavigation()
@@ -27,7 +30,8 @@ export function FormCandidate(){
     }
 
     try {
-      await CreateUser(data.email,data.password)
+      const userId = await CreateUser(data.email,data.password)
+      await CreateCandidateOnDb(userId, data)
       Alert.alert('Cadastro', 'Cadastro Efetuado com sucesso, favor faça seu Login.')
     } catch (error) {
       Alert.alert('Cadastro', 'Não foi possível realizar o cadastro, você ja possui uma conta com esse e-mail. Por favor realize seu login.')
@@ -81,8 +85,8 @@ export function FormCandidate(){
                 message: 'Digite um CPF válido'
               }
             }}
-            render={({field: {onChange}}) => (
-              <TextInput placeholder="000.000.000-00" className="text-white bg-gray-700 px-2 py-1 rounded-lg" placeholderTextColor='#d9d9d9' onChangeText={onChange}/>
+            render={({field: {onChange,value}}) => (
+              <TextInput placeholder="000.000.000-00" className="text-white bg-gray-700 px-2 py-1 rounded-lg" placeholderTextColor='#d9d9d9' onEndEditing={() => setCpf(formatCPF(value))} onChangeText={onChange}/>
             )}
           />
           {errors.cpf?.message && <Text className="text-xs text-red-500">* {errors.cpf?.message}</Text>}
@@ -178,3 +182,4 @@ export function FormCandidate(){
     </View>
   )
 }
+
