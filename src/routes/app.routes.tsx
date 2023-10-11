@@ -2,6 +2,7 @@ import {createNativeStackNavigator} from "@react-navigation/native-stack"
 import React from "react"
 import { Login } from "../screens/login"
 import { SignUp } from "../screens/signUp"
+import { Jobs } from "../screens/jobs"
 
 const { Screen,Navigator }= createNativeStackNavigator()
 
@@ -16,6 +17,11 @@ export function AppRoutes(){
       <Screen 
         name='signUp'
         component={SignUp}
+      />
+
+      <Screen 
+        name='jobs'
+        component={Jobs}
       />
     </Navigator>
   )

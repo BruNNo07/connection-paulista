@@ -1,4 +1,4 @@
-import { MapPin } from 'phosphor-react-native'
+import { ArrowSquareOut, LinkSimple, MapPin } from 'phosphor-react-native'
 import React from 'react'
 import {TouchableOpacity,View, Text} from 'react-native'
 
@@ -13,6 +13,9 @@ type JobConteinerProps= {
 export function JobConteiner({company,skills,title,salary = 0,locale}:JobConteinerProps){
   return(
     <TouchableOpacity className='px-2 py-1 border border-gray-700 rounded-lg mb-2 '>
+      <View className='absolute top-2 right-2'>
+        <ArrowSquareOut size={24}/>
+      </View>
       <View className='mb-3'>
         <Text className='text-lg font-bold text-gray-800'>{title}</Text>
         <Text className='text-sm text-gray-900'>{company}</Text>
@@ -23,7 +26,7 @@ export function JobConteiner({company,skills,title,salary = 0,locale}:JobContein
         {skills[2] && <Text className='bg-orange-500/50 px-2 py-1 text-xs rounded-full'>{skills[2]}</Text>}
       </View>
       {salary > 0 && <Text className='text-emerald-700 w-fit font-bold'>R$ {salary.toFixed(2)}</Text>}
-      <View className='flex-row space-x-2 justify-center mt-3'>
+      <View className='flex-row space-x-2 justify-center mt-3 mb-2'>
         <MapPin size={18} color='blue' />
         <Text>{locale}</Text>
       </View>

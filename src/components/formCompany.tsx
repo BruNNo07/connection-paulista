@@ -1,24 +1,42 @@
 import React, { useState } from "react";
-import { View ,Text,TouchableOpacity,Image,TextInput } from "react-native";
+import { View ,Text,TouchableOpacity,Image,TextInput, Alert } from "react-native";
 import { useForm, Controller } from 'react-hook-form'
+import { useNavigation } from "@react-navigation/native";
+import { CreateUser } from "../firebase/functions/auth";
 
-type FormCompanyData = {
+export type FormCompanyData = {
   companyName: string
   companyAdress: string
   companyNumber: number
   companyNeighborhood: string
   companyComplement: string
   companyCNPJ: string
-  companyEmail: string
+  email: string
   password: string
   passwordConfirm: string
 }
 
 export function FormCompany(){
-  const {control, handleSubmit, formState:{ errors }} = useForm<FormCompanyData>()
+  const {control, handleSubmit, formState:{ errors }, getValues} = useForm<FormCompanyData>()
 
-  function submitForm(data:FormCompanyData) {
-    console.log(data)
+  const {navigate} = useNavigation()
+  
+  async function submitForm (data: FormCompanyData){
+    const password = getValues('password')
+    const passwordConfirm = getValues('passwordConfirm')
+
+    if(password !== passwordConfirm){
+      return Alert.alert('Cadastro', 'A senha e confirmação não correspondem')
+    }
+
+    try {
+      await CreateUser(data.email,data.password)
+      Alert.alert('Cadastro', 'Cadastro Efetuado com sucesso, favor faça seu Login.')
+    } catch (error) {
+      Alert.alert('Cadastro', 'Não foi possível realizar o cadastro, você ja possui uma conta com esse e-mail. Por favor realize seu login.')
+    } finally {
+      navigate('login')
+    }
   }
 
   return (
@@ -131,8 +149,8 @@ export function FormCompany(){
           name="companyCNPJ"
           rules={{
             required: 'Campo obrigatório',
-            pattern: {
-              value:/^\d{2}\.\d{3}\.\d{3}\/\d{4}\-\d{2}$/,
+            minLength: {
+              value: 14,
               message: 'Digite um CNPJ válido.'
             }
           }}
@@ -153,7 +171,7 @@ export function FormCompany(){
         <Text>E-mail</Text>
         <Controller
           control={control}
-          name="companyEmail"
+          name="email"
           rules={{
             required: 'Campo obrigatório',
             pattern:{
@@ -170,7 +188,7 @@ export function FormCompany(){
             />
           )}
         />
-        {errors.companyEmail?.message && <Text className="text-xs text-red-500">* {errors.companyEmail?.message}</Text>}
+        {errors.email?.message && <Text className="text-xs text-red-500">* {errors.email?.message}</Text>}
       </View>
     </View>
     <View className="flex-row w-full justify-between space-x-2">

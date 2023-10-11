@@ -44,7 +44,7 @@ export function Jobs(){
     if (filterTitle.trim() === '' && filterSkills.trim() === '') {
       return setJobs(initialData)
     } else if (filterTitle.trim() !== '') {
-      const newData = jobs.filter(job => job.title.includes(filterTitle))
+      const newData = jobs.filter(job => job.title.toUpperCase().includes(filterTitle.toUpperCase()))
       return setJobs(newData)
     } else if (filterSkills.trim() !== '') {
       const newData = jobs.filter(job => job.skills.find(skill => skill.toUpperCase().includes(filterSkills.toUpperCase())))
@@ -55,7 +55,7 @@ export function Jobs(){
   },[filterTitle,filterSkills])
 
   return(
-    <SafeAreaView className="flex-1 justify-between">
+    <SafeAreaView className="flex-1 justify-between bg-white">
       <View className="px-4 flex-1">
         <View className="flex-row space-x-2 w-full items-center justify-center">
           <Briefcase size={24}/>
@@ -63,8 +63,8 @@ export function Jobs(){
         </View>
         
         <View className="space-y-2 my-5">
-          <TextInput className="w-full bg-gray-800 rounded-lg px-2 py-1 text-white" placeholderTextColor={'gray'} placeholder="Filtre por: Titulo" onChangeText={setFilterTitle}/>
-          <TextInput className="w-full bg-gray-800 rounded-lg px-2 py-1 text-white" placeholderTextColor={'gray'} placeholder="Filtre por: Skills"  onChangeText={setFilterSkills}/>
+          <TextInput className="w-full bg-gray-800 rounded-lg p-2 text-white" placeholderTextColor={'gray'} placeholder="Filtre por: Titulo" onChangeText={setFilterTitle}/>
+          <TextInput className="w-full bg-gray-800 rounded-lg p-2 text-white" placeholderTextColor={'gray'} placeholder="Filtre por: Skills"  onChangeText={setFilterSkills}/>
         </View>
 
         <FlatList 

@@ -5,15 +5,15 @@ import { TouchableOpacity, View } from "react-native";
 
 export function NavMenu(){
   return(
-    <View className="flex-row justify-around items-center bg-gray-700 py-2 w-full">
+    <View className="flex-row justify-around items-center bg-white py-1 w-full">
       <TouchableOpacity className="border-r border-black w-32 items-center">
-        <Briefcase size={24} color="white" />
+        <Briefcase size={24} color="black" />
       </TouchableOpacity>
       <TouchableOpacity className="border-r border-black w-32 items-center">
-        <Newspaper size={24} color="white" />
+        <Newspaper size={24} color="black" />
       </TouchableOpacity>
       <TouchableOpacity className="w-32 items-center">
-        <User size={24} color="white" />
+        <User size={24} color="black" />
       </TouchableOpacity>
     </View>
   )
