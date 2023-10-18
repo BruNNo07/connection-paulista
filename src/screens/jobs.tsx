@@ -1,87 +1,110 @@
-import React, { useEffect, useState } from "react";
-import { View,Text,FlatList, TextInput } from "react-native";
+import React, { useContext, useEffect, useState } from "react";
+import { View,Text,FlatList, TextInput, TouchableOpacity } from "react-native";
+import { Modal, Slider } from "native-base";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { NavMenu } from "../components/navMenu";
 import { JobConteiner } from "../components/JobConteiner";
-import { Briefcase } from "phosphor-react-native";
+import { Briefcase, FunnelSimple, Plus } from "phosphor-react-native";
+import { UserContext, UserContextProps} from "../context/UserContext";
+import { useNavigation } from "@react-navigation/native";
+import { getAllJobs } from "../firebase/functions/database";
 
-type JobsProps = {
+export type JobsProps = {
+  benefits: string[]
   company: string
-  title: string
+  companyLocale: string
+  createdAt: string
   description: string
-  createdAt: Date
-  skills: string[]
-  locale: string
-  salary?: number
+  functions: string[]
+  position: string
+  salary: number
+  seniority: string
+  typeContract: 'CLT' | 'PJ' | 'Temporário'
 }
 
 export function Jobs(){
-  const [filterTitle, setFilterTitle] = useState('')
-  const [filterSkills, setFilterSkills] = useState('')
-  const initialData = [
-    {
-      company: 'Focus Paulista',
-      title: 'Analista Administrativo Jr',
-      description: 'Vaga na Região da Paulista, para pessoas que estão buscando uma oportunidade de ingressar na carreira de Analista Administrativo.',
-      skills: ['Pro Atividade', 'Pacote Office', 'Inglês Avançado'],
-      locale: 'Avenida Paulista, 1000 - 15ª andar',
-      salary: 2000,
-      createdAt: new Date()
-    },
-    {
-      company: 'Consolação Enterprise',
-      title: 'Desenvolvedor Back-End',
-      description: 'Vaga na Região da Paulista, para pessoas que estão buscando uma oportunidade de ingressar na carreira de Dev.',
-      skills: ['Pro Atividade', 'Pacote Office', 'NodeJs'],
-      locale: 'Avenida Consolação, 2000 - 1ª andar',
-      salary: 3500,
-      createdAt: new Date()
-    }
-  ]
-  const [jobs, setJobs] = useState<JobsProps[]>(initialData)
+  const [modalVisible, setModalVisible] = useState(false);
+  const [jobs, setJobs] = useState<JobsProps[]>([])
 
-  useEffect(() =>{
-    if (filterTitle.trim() === '' && filterSkills.trim() === '') {
-      return setJobs(initialData)
-    } else if (filterTitle.trim() !== '') {
-      const newData = jobs.filter(job => job.title.toUpperCase().includes(filterTitle.toUpperCase()))
-      return setJobs(newData)
-    } else if (filterSkills.trim() !== '') {
-      const newData = jobs.filter(job => job.skills.find(skill => skill.toUpperCase().includes(filterSkills.toUpperCase())))
-      return setJobs(newData)
-    }else {
-      return setJobs(initialData)
-    }
-  },[filterTitle,filterSkills])
+  async function FetchJobs() {
+    const jobs = await getAllJobs()
 
-  return(
-    <SafeAreaView className="flex-1 justify-between bg-white">
-      <View className="px-4 flex-1">
-        <View className="flex-row space-x-2 w-full items-center justify-center">
-          <Briefcase size={24}/>
-          <Text className="font-bold text-lg text-center">Vagas</Text>
+    setJobs(jobs)
+  }
+
+  useEffect(()=>{
+    FetchJobs()
+  },[jobs])
+
+  const { navigate } = useNavigation()
+
+  const user = useContext(UserContext)
+
+  if(user?.userData) {
+    return(
+      <SafeAreaView className="flex-1 justify-between bg-zinc-900">
+        <View className="px-4 flex-1">
+          <View className="flex-row space-x-2 w-full items-center justify-center">
+            <Briefcase size={24} color="white"/>
+            <Text className="font-bold text-lg text-center text-gray-100">Vagas</Text>
+          </View>
+          
+          <View className="flex-row space-x-2 w-full items-center justify-end mb-4">
+            <TouchableOpacity className="flex-row px-4 py-2 space-x-2 items-center rounded-lg" onPress={() => setModalVisible(true)}>
+              <FunnelSimple size={24} color="white"/>
+              <Text className="font-bold text-lg text-gray-100">Filtrar</Text>
+            </TouchableOpacity>
+          </View>
+
+          <Modal className="" isOpen={modalVisible} onClose={() => setModalVisible(false)} avoidKeyboard justifyContent="flex-start" top={8} size="full">
+            <Modal.Content className="bg-zinc-900">
+              <Modal.CloseButton />
+              <Modal.Header className="bg-zinc-900">
+                <Text className="text-gray-100 text-lg font-bold">Filtrar</Text>
+              </Modal.Header>
+              <Modal.Body className="space-y-3">
+                <View className="space-y-1">
+                  <Text className="text-gray-100 font-semibold">Posição</Text>
+                  <TextInput placeholder="Analista Administrativo" className="text-zinc-900 bg-gray-100 px-2 py-1 rounded-lg" placeholderTextColor='gray' />
+                </View>
+                <View className="space-y-1">
+                  <Text className="text-gray-100 font-semibold">Função</Text>
+                  <TextInput placeholder="Analista Administrativo" className="text-zinc-900 bg-gray-100 px-2 py-1 rounded-lg" placeholderTextColor='gray' />
+                </View>
+                <View>
+                  <Text className="text-gray-100 font-semibold">Salário</Text>
+                  <Slider defaultValue={5000} minValue={0} maxValue={15000} size="lg">
+                    <Slider.Track>
+                      <Slider.FilledTrack />
+                    </Slider.Track>
+                    <Slider.Thumb />
+                  </Slider>
+                </View>
+              </Modal.Body>
+            </Modal.Content>
+          </Modal>
+          <FlatList 
+            keyExtractor={(item) => item.company + item.position}
+            data={jobs}
+            renderItem={({item}) => (
+              <JobConteiner company={item.company} locale={item.companyLocale} skills={item.functions} title={item.position} salary={item.salary}/>
+            )}
+            ListEmptyComponent={() => (
+              <View className="flex-1 items-center justify-center">
+                <Text>Nenhum item encontrado.</Text>
+              </View>
+            )}
+            showsVerticalScrollIndicator={false}
+          />
         </View>
-        
-        <View className="space-y-2 my-5">
-          <TextInput className="w-full bg-gray-800 rounded-lg p-2 text-white" placeholderTextColor={'gray'} placeholder="Filtre por: Titulo" onChangeText={setFilterTitle}/>
-          <TextInput className="w-full bg-gray-800 rounded-lg p-2 text-white" placeholderTextColor={'gray'} placeholder="Filtre por: Skills" onChangeText={setFilterSkills}/>
-        </View>
-
-        <FlatList 
-          keyExtractor={(item) => item.company + item.title}
-          data={jobs}
-          renderItem={({item}) => (
-            <JobConteiner company={item.company} locale={item.locale} skills={item.skills} title={item.title} salary={item.salary}/>
-          )}
-          ListEmptyComponent={() => (
-            <View className="flex-1 items-center justify-center">
-              <Text>Nenhum item encontrado.</Text>
-            </View>
-          )}
-          showsVerticalScrollIndicator={false}
-        />
-      </View>
-      <NavMenu />
-    </SafeAreaView>
-  )
+        {user.userData.role === 'company' && (
+          <TouchableOpacity className="absolute bottom-12 right-4 rounded-full p-2 bg-blue-500 border border-gray-100" onPress={() => navigate('newJob')}>
+            <Plus size={24} color="white"/>
+          </TouchableOpacity>
+        )}
+        <NavMenu />
+      </SafeAreaView>
+    )
+  }
+  
 }

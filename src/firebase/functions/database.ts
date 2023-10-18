@@ -1,7 +1,10 @@
-import { get, ref, set } from "firebase/database";
+import { get, ref, set, push } from "firebase/database";
 import { db } from "../firebase-config";
 import { FormCandidateData } from "../../components/formCandidate";
 import { FormCompanyData } from "../../components/formCompany";
+import { NewJobProps } from "../../screens/newJob";
+import { UserProps } from "../../context/UserContext";
+import { JobsProps } from "../../screens/jobs";
 
 export async function CreateCandidateOnDb(userId: string, data: FormCandidateData ) {
   await set(ref(db, 'users/' + userId), {
@@ -17,18 +20,53 @@ export async function CreateCandidateOnDb(userId: string, data: FormCandidateDat
 export async function CreateCompanyOnDb(userId: string, data: FormCompanyData ) {
   await set(ref(db, 'users/' + userId), {
     role: 'company',
-    name: data.companyName,
-    adress: data.companyAdress,
-    adressNumber: data.companyNumber,
-    adressComplement: data.companyComplement,
-    adressNeighborhood: data.companyNeighborhood,
-    adressState: data.companyAdressState,
-    adressCity: data.companyCity,
-    CNPJ: data.companyCNPJ,
+    companyName: data.companyName,
+    companyAdress: data.companyAdress,
+    companyNumber: data.companyNumber,
+    companyComplement: data.companyComplement,
+    companyNeighborhood: data.companyNeighborhood,
+    companyAdressState: data.companyAdressState,
+    companyCity: data.companyCity,
+    companyCNPJ: data.companyCNPJ,
     email: data.email.toLowerCase()
   });
 }
 
 export async function getUserData(userId: string) {
-  await get(ref(db,'users/' + userId))
+  try {
+    const user = await get(ref(db,'users/' + userId))
+    return user.val()
+  } catch (error) {
+    throw error
+  }
+}
+
+export async function createJobOportunity(data: NewJobProps, userData: UserProps){
+  try {
+    await push(ref(db, 'jobs/'),{
+      position: data.position,
+      description: data.description,
+      functions: data.functions,
+      benefits: data.benefits,
+      salary: data.salary,
+      seniority: data.seniority,
+      typeContract: data.typeContract,
+      company: userData.companyName,
+      companyLocale: `${userData.companyAdress}, ${userData.companyNumber} - ${userData.companyNeighborhood} - ${userData.companyCity} - ${userData.companyAdressState}`,
+      createdAt: String(new Date())
+    })
+  } catch (error) {
+    throw error
+  }
+}
+
+export async function getAllJobs() {
+  try {
+    const jobs = await get(ref(db,'jobs/'))
+    const data = Object.values<JobsProps>(jobs.val())
+
+    return data
+  } catch (error) {
+    throw error
+  }
 }
