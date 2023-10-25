@@ -4,7 +4,8 @@ export declare global {
       signUp: undefined;
       login: undefined;
       jobs: undefined;
-      newJob: undefined
+      newJob: undefined;
+      profile: undefined;
     }
   }
 }

@@ -1,4 +1,4 @@
-import { get, ref, set, push } from "firebase/database";
+import { get, ref, set, push, update } from "firebase/database";
 import { db } from "../firebase-config";
 import { FormCandidateData } from "../../components/formCandidate";
 import { FormCompanyData } from "../../components/formCompany";
@@ -39,6 +39,27 @@ export async function getUserData(userId: string) {
   } catch (error) {
     throw error
   }
+}
+
+export async function updateUserData(userId: string,role: 'candidate' | 'company', data:UserProps) {
+  if(role ==='company'){
+    update(ref(db, 'users/' + userId),{
+      companyNumber: data.companyNumber,
+      companyAdress: data.companyAdress,
+      companyAdressState: data.companyAdressState,
+      companyComplement: data.companyComplement,
+      companyNeighborhood: data.companyNeighborhood,
+      companyCity: data.companyCity,
+      companyName: data.companyName
+    })
+  } else {
+    update(ref(db, 'users/' + userId),{
+      name: data.name,
+      lastName: data.lastName,
+      phone: data.phone,
+    })
+  }
+  
 }
 
 export async function createJobOportunity(data: NewJobProps, userData: UserProps){

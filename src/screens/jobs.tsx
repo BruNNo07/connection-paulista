@@ -36,11 +36,24 @@ export function Jobs(){
     FetchJobs()
   },[jobs])
 
+
   const { navigate } = useNavigation()
 
   const user = useContext(UserContext)
 
-  if(user?.userData) {
+  useEffect(()=>{
+    user?.fetchUser()
+  },[])
+
+  if (user?.loadingUser) {
+    return (
+      <View className="flex-1 items-center justify-center bg-zinc-900">
+        <Text className="text-gray-100">Loading</Text>
+      </View>
+    )
+  }
+
+  if(!user?.loadingUser) {
     return(
       <SafeAreaView className="flex-1 justify-between bg-zinc-900">
         <View className="px-4 flex-1">
@@ -97,7 +110,7 @@ export function Jobs(){
             showsVerticalScrollIndicator={false}
           />
         </View>
-        {user.userData.role === 'company' && (
+        {user?.userData?.role === 'company' && (
           <TouchableOpacity className="absolute bottom-12 right-4 rounded-full p-2 bg-blue-500 border border-gray-100" onPress={() => navigate('newJob')}>
             <Plus size={24} color="white"/>
           </TouchableOpacity>

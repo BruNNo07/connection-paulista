@@ -13,14 +13,14 @@ export function NavMenu(){
   const { navigate } = useNavigation()
 
     return(
-      <View className="flex-row justify-around items-center bg-zinc-900 py-1 w-full relative">
-        <TouchableOpacity className="border-r border-white w-32 items-center">
+      <View className="flex-row justify-around items-center bg-zinc-900 py-1 w-full fixed">
+        <TouchableOpacity className="border-r border-white w-32 items-center" onPress={() => navigate('jobs')}>
           <Briefcase size={24} color="white" />
         </TouchableOpacity>
         <TouchableOpacity className="border-r border-white w-32 items-center">
           <Newspaper size={24} color="white" />
         </TouchableOpacity>
-        <TouchableOpacity className="w-32 items-center">
+        <TouchableOpacity className="w-32 items-center" onPress={() => navigate('profile')}>
           <User size={24} color="white" />
         </TouchableOpacity>
       </View>

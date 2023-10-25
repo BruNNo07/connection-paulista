@@ -12,6 +12,8 @@ export type UserProps = FormCandidateData & FormCompanyData & {
 export type UserContextProps = {
   userData: UserProps | null
   userId: string
+  loadingUser: boolean
+  fetchUser: () => void
 }
 
 export const UserContext = createContext<UserContextProps | null>(null)
@@ -23,22 +25,22 @@ type UserContextProviderProps = {
 export function UserContextProvider ({children}:UserContextProviderProps){
   const [userId,setUserId] = useState('')
   const [user, setUser] = useState<UserProps | null>(null)
+  const [loadingUser, setLoadingUser] = useState(false)
   
   async function fetchUser(){
+    setLoadingUser(true)
     const userId = await AsyncStorage.getItem(USER_ID)
 
     if( userId === null) return
+
     const fetchUser:UserProps = await getUserData(userId)
     setUser(fetchUser)
     setUserId(userId)
+    setLoadingUser(false)
   }
   
-  useEffect(() => {
-    fetchUser()
-  },[])
-  
   return(
-    <UserContext.Provider value={{userData: user, userId}}>
+    <UserContext.Provider value={{userData: user, userId, loadingUser, fetchUser}}>
       {children}
     </UserContext.Provider>
   )
