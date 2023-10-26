@@ -15,10 +15,10 @@ type ProfileProps = UserProps & {
 }
 
 export function Profile(){
-  const user = useContext(UserContext)
-
   const navigation = useNavigation()
 
+  const user = useContext(UserContext)
+  
   useEffect(() => {
     user?.fetchUser()
   },[])

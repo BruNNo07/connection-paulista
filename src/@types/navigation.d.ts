@@ -6,6 +6,9 @@ export declare global {
       jobs: undefined;
       newJob: undefined;
       profile: undefined;
+      jobDetails: {
+        jobId: string
+      }
     }
   }
 }

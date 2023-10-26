@@ -84,10 +84,72 @@ export async function createJobOportunity(data: NewJobProps, userData: UserProps
 export async function getAllJobs() {
   try {
     const jobs = await get(ref(db,'jobs/'))
-    const data = Object.values<JobsProps>(jobs.val())
+
+    const data = Object.entries<JobsProps>(jobs.val()).map(([key, value]) => {
+      return {
+        key,
+        position: value.position,
+        description: value.description,
+        createdAt: value.createdAt,
+        functions: value.functions,
+        benefits: value.benefits,
+        company: value.company,
+        companyLocale: value.companyLocale,
+        seniority: value.seniority,
+        typeContract: value.typeContract,
+        salary: value.salary
+      }
+    })
 
     return data
   } catch (error) {
     throw error
+  }
+}
+
+export async function getJobDetails (jobid: string){
+  try {
+    const data = await get(ref(db, 'jobs/' + jobid))
+
+    return data.val()
+  } catch (error) {
+    return error
+  }
+}
+
+export async function createUserApply(jobId: string, userId: string){
+  const applys:{ users: string[] } = await getUsersApply(jobId)
+  
+  if (applys !== null) {
+    const applyAlreadyExists = applys.users.find(user => user === userId)
+    if (applyAlreadyExists) throw 'Candidatura já Realizada'
+
+    applys.users.push(userId)
+    try {
+      await update(ref(db, 'applys/' + jobId),{
+        users: applys
+      })
+    } catch (error) {
+      throw error
+    }
+  } else {
+    try {
+      await set(ref(db, 'applys/' + jobId),{
+        users: [userId]
+      })
+    } catch (error) {
+      throw error
+    }
+  }
+
+}
+
+export async function getUsersApply(jobId: string) {
+  try {
+    const data = await get(ref(db, 'applys/' + jobId))
+
+    return data.val()
+  } catch {
+    return []
   }
 }

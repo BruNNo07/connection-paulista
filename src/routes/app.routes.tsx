@@ -5,6 +5,7 @@ import { SignUp } from "../screens/signUp"
 import { Jobs } from "../screens/jobs"
 import { NewJob } from "../screens/newJob"
 import { Profile } from "../screens/profile"
+import { JobDetails } from "../screens/jobDetails"
 
 const { Screen,Navigator }= createNativeStackNavigator()
 
@@ -34,6 +35,11 @@ export function AppRoutes(){
       <Screen 
         name='profile'
         component={Profile}
+      />
+
+      <Screen 
+        name='jobDetails'
+        component={JobDetails}
       />
     </Navigator>
   )

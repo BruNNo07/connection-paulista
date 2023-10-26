@@ -10,6 +10,7 @@ import { useNavigation } from "@react-navigation/native";
 import { getAllJobs } from "../firebase/functions/database";
 
 export type JobsProps = {
+  key:string
   benefits: string[]
   company: string
   companyLocale: string
@@ -27,9 +28,9 @@ export function Jobs(){
   const [jobs, setJobs] = useState<JobsProps[]>([])
 
   async function FetchJobs() {
-    const jobs = await getAllJobs()
+    const jobsData = await getAllJobs()
 
-    setJobs(jobs)
+    setJobs(jobsData)
   }
 
   useEffect(()=>{
@@ -100,7 +101,7 @@ export function Jobs(){
             keyExtractor={(item) => item.company + item.position}
             data={jobs}
             renderItem={({item}) => (
-              <JobConteiner company={item.company} locale={item.companyLocale} skills={item.functions} title={item.position} salary={item.salary}/>
+              <JobConteiner company={item.company} locale={item.companyLocale} skills={item.functions} title={item.position} salary={item.salary} jobId={item.key}/>
             )}
             ListEmptyComponent={() => (
               <View className="flex-1 items-center justify-center">
