@@ -23,10 +23,28 @@ export function JobConteiner({company,skills,title,salary = 0,locale, jobId}:Job
         <Text className='text-lg font-bold text-gray-100'>{title}</Text>
         <Text className='text-sm text-gray-300'>{company}</Text>
       </View>
-      <View className='flex-row space-x-2 mb-3'>
-        {skills[0] && <Text className='bg-yellow-200 px-2 py-1 text-xs rounded-full text-zinc-900'>{skills[0]} </Text>}
-        {skills[1] && <Text className='bg-yellow-200 px-2 py-1 text-xs rounded-full text-zinc-900'>{skills[1]} </Text>}
-        {skills[2] && <Text className='bg-yellow-200 px-2 py-1 text-xs rounded-full text-zinc-900'>{skills[2]} </Text>}
+      <View className='flex-row space-x-2 mb-3 flex-1 items-center justify-center'>
+        {
+        skills[0] && (
+          <View className='bg-yellow-200 py-1 px-1 rounded-full w-[26vw] items-center'>
+            <Text className='text-xs text-zinc-900' numberOfLines={1}>{skills[0]} </Text>
+          </View>
+        )
+        }
+        {
+        skills[1] && (
+          <View className='bg-yellow-200 py-1 px-1 rounded-full w-[26vw] items-center'>
+            <Text className='text-xs text-zinc-900' numberOfLines={1}>{skills[1]} </Text>
+          </View>
+        )
+        }
+        {
+        skills[2] && (
+          <View className='bg-yellow-200 py-1 px-1 rounded-full w-[26vw] items-center '>
+            <Text className='text-xs text-zinc-900' numberOfLines={1} > {skills[2]} </Text>
+          </View>
+        )
+        }
       </View>
       {salary > 0 && <Text className='text-gray-100 w-fit font-bold'>R$ {salary}</Text>}
       <View className='flex-row space-x-2 items-center justify-center mt-3 mb-2 px-2'>

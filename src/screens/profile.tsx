@@ -5,10 +5,15 @@ import { NavMenu } from "../components/navMenu";
 import { UserContext, UserProps } from "../context/UserContext";
 import { Avatar, ScrollView } from "native-base";
 import { Controller, useForm } from "react-hook-form";
-import { updateUserData } from "../firebase/functions/database";
+import { updateUrlCV, updateUserData } from "../firebase/functions/database";
 import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { USER_ID } from "../firebase/AsyncStorage-Keys";
+import { ArrowLeft, DownloadSimple } from "phosphor-react-native";
+import { LoadingConteiner } from "../components/LoadingConteiner";
+import * as DocumentPicker from 'expo-document-picker';
+import { UploadToStorage, getDownloadUrl } from "../firebase/functions/storage";
+import { getDownloadURL } from "firebase/storage";
 
 type ProfileProps = UserProps & {
   photoUrl: string
@@ -62,7 +67,30 @@ export function Profile(){
     ])
   }
 
-  
+  async function UploadPdf() {p
+    try {
+      const doc = await DocumentPicker.getDocumentAsync({
+        type: ['application/pdf'], 
+        multiple: false, 
+        copyToCacheDirectory:true
+      })
+      
+      if(doc.assets){
+        const response = await fetch(doc.assets[0].uri)
+        const blob = await response.blob()
+        const fileName = doc.assets[0].name
+
+        await UploadToStorage(blob, user?.userId!, fileName)
+
+        const downloadUrl = await getDownloadUrl(user?.userId!, fileName)
+        
+        await updateUrlCV(user?.userId!, downloadUrl)
+      }
+    } catch (error) {
+      console.log(error)
+    }
+    
+  }
 
   useEffect(() =>{
     transferDataToForm()
@@ -70,19 +98,17 @@ export function Profile(){
 
   if (user?.loadingUser){
     return (
-      <SafeAreaView className="flex-1 bg-zinc-900 items-center justify-center">
-        <View className="flex-1 items-center justify-center">
-          <Text className="text-gray-100 font-bold">Loading...</Text>
-        </View>
-        
-        <NavMenu />
-      </SafeAreaView>
+      <LoadingConteiner />
     )
   }
 
   if (!user?.loadingUser){
     return(
-      <SafeAreaView className="flex-1 bg-zinc-900 items-center justify-center px-1">
+      <SafeAreaView className="flex-1 bg-zinc-900 justify-center px-1">
+          <TouchableOpacity onPress={() => navigation.navigate('jobs')} className="p-2">
+            <ArrowLeft size={24} color="white"/> 
+          </TouchableOpacity>
+        
         <View className="items-center my-4 space-y-2">
           {user?.userData?.role === 'company' ? (
             <Text className="text-lg text-gray-100 font-semibold">
@@ -97,7 +123,7 @@ export function Profile(){
           
         </View>
         
-        <Text className="text-gray-100 font-semibold text-md">Dados Cadastrais</Text>
+        <Text className="text-gray-100 font-semibold text-md text-center">Dados Cadastrais</Text>
         <ScrollView className="flex-1 w-full px-2 mt-2 space-y-4">
           {user?.userData?.role === 'company' ? (
             <>
@@ -235,7 +261,7 @@ export function Profile(){
             </View>
 
             <View className="">
-              <Text className="text-gray-100 mb-1">Sobrenome</Text>
+              <Text className="text-gray-100 mb-1">Telefone</Text>
               <Controller
                 control={control}
                 rules={{
@@ -250,6 +276,14 @@ export function Profile(){
             
             <TouchableOpacity className="flex-1 bg-gray-100 items-center justify-center p-2 rounded-lg" onPress={handleSubmit(onSubmit)}>
               <Text className="text-zinc-900 font-bold">Salvar Alterações</Text>
+            </TouchableOpacity>
+            
+            <View>
+              <Text className="text-gray-100 text-center font-bold mt-2">Upload de Curriculo</Text>
+            </View>
+
+            <TouchableOpacity className="flex-1 items-center justify-center h-16 border border-blue-600 border-dashed" onPress={UploadPdf}>
+              <DownloadSimple size={28} color="#4a5bf5"/>
             </TouchableOpacity>
             </>
           )}

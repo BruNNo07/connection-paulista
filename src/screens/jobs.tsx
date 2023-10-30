@@ -5,7 +5,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { NavMenu } from "../components/navMenu";
 import { JobConteiner } from "../components/JobConteiner";
 import { Briefcase, FunnelSimple, Plus } from "phosphor-react-native";
-import { UserContext, UserContextProps} from "../context/UserContext";
+import { UserContext} from "../context/UserContext";
 import { useNavigation } from "@react-navigation/native";
 import { getAllJobs } from "../firebase/functions/database";
 
@@ -83,23 +83,15 @@ export function Jobs(){
                 </View>
                 <View className="space-y-1">
                   <Text className="text-gray-100 font-semibold">Função</Text>
-                  <TextInput placeholder="Analista Administrativo" className="text-zinc-900 bg-gray-100 px-2 py-1 rounded-lg" placeholderTextColor='gray' />
-                </View>
-                <View>
-                  <Text className="text-gray-100 font-semibold">Salário</Text>
-                  <Slider defaultValue={5000} minValue={0} maxValue={15000} size="lg">
-                    <Slider.Track>
-                      <Slider.FilledTrack />
-                    </Slider.Track>
-                    <Slider.Thumb />
-                  </Slider>
+                  <TextInput placeholder="Criar Relatórios" className="text-zinc-900 bg-gray-100 px-2 py-1 rounded-lg" placeholderTextColor='gray' />
                 </View>
               </Modal.Body>
             </Modal.Content>
           </Modal>
+
           <FlatList 
             keyExtractor={(item) => item.company + item.position}
-            data={jobs}
+            data={jobs.sort((a,b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())}
             renderItem={({item}) => (
               <JobConteiner company={item.company} locale={item.companyLocale} skills={item.functions} title={item.position} salary={item.salary} jobId={item.key}/>
             )}

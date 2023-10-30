@@ -103,7 +103,7 @@ export function JobDetails (){
         <Text className="text-xl text-gray-100 text-center font-bold">{jobDetails?.position}</Text>
         <Text className="text-md text-gray-400 text-center">{jobDetails?.seniority}</Text>
         <Text className="text-md text-gray-400 text-center">{jobDetails?.company}</Text>
-        <View className="flex-row items-center space-x-2">
+        <View className="flex-row items-center space-x-2 justify-center">
           <MapPin size={16} color="blue"/>
           <Text className="text-md text-gray-400 text-center">{jobDetails?.companyLocale}</Text>
         </View>
@@ -121,9 +121,9 @@ export function JobDetails (){
         <View className="mt-4 space-y-2">
           <Text className="text-gray-100 font-semibold">Principais Funções</Text>
 
-          {jobDetails?.functions.map((jobFunction) => {
+          {jobDetails?.functions && jobDetails?.functions.map((jobFunction) => {
             return (
-              <View className="flex-row items-center space-x-2">
+              <View className="flex-row items-center space-x-2"key={jobFunction}>
                 <Circle size={12} color="green"/>
                 <Text className="text-gray-100">{jobFunction}</Text>
               </View>
@@ -134,9 +134,9 @@ export function JobDetails (){
         <View className="mt-4 space-y-2">
           <Text className="text-gray-100 font-semibold">Beneficios</Text>
 
-          {jobDetails?.benefits.map((jobFunction) => {
+          {jobDetails?.benefits && jobDetails?.benefits.map((jobFunction) => {
             return (
-              <View className="flex-row items-center space-x-2">
+              <View className="flex-row items-center space-x-2" key={jobFunction}>
                 <Circle size={12} color="green"/>
                 <Text className="text-gray-100">{jobFunction}</Text>
               </View>
@@ -154,6 +154,12 @@ export function JobDetails (){
       {user?.userData?.role === 'candidate' && (
         <TouchableOpacity className="bg-emerald-500 rounded py-2 items-center my-3" onPress={handleCreateUserApply}>
           <Text className="text-gray-100 font-bold text-lg">Candidatar-se</Text>
+        </TouchableOpacity>
+      )}
+
+      {user?.userData?.companyName === jobDetails?.company && (
+        <TouchableOpacity className="bg-blue-500 rounded py-2 items-center my-3" onPress={() => navigation.navigate('applications', { jobId })}>
+          <Text className="text-gray-100 font-bold text-lg">Visualizar Candidaturas</Text>
         </TouchableOpacity>
       )}
       

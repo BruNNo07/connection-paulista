@@ -127,7 +127,7 @@ export async function createUserApply(jobId: string, userId: string){
     applys.users.push(userId)
     try {
       await update(ref(db, 'applys/' + jobId),{
-        users: applys
+        users: applys.users
       })
     } catch (error) {
       throw error
@@ -151,5 +151,15 @@ export async function getUsersApply(jobId: string) {
     return data.val()
   } catch {
     return []
+  }
+}
+
+export async function updateUrlCV(userId: string, downloadUrl: string) {
+  try {
+    await update(ref(db, 'users/' + userId), {
+      cvUrl: downloadUrl
+    });
+  } catch (error) {
+    
   }
 }

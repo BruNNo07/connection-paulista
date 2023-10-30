@@ -9,6 +9,9 @@ export declare global {
       jobDetails: {
         jobId: string
       }
+      applications: {
+        jobId: string
+      }
     }
   }
 }
