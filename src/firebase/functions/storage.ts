@@ -7,7 +7,7 @@ const storage = getStorage()
 
 export async function UploadToStorage(file: any, userId: string, fileName: string) {
   const storageRef = ref(storage, 'usersCV/' + userId + "/" + fileName);
-  uploadBytes(storageRef, file).then((snapshot) => {
+  await uploadBytes(storageRef, file).then((snapshot) => {
     console.log('Uploaded a blob or file!');
   });
 }

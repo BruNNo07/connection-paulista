@@ -12,6 +12,9 @@ export declare global {
       applications: {
         jobId: string
       }
+      pdfViewer: {
+        url: string
+      }
     }
   }
 }

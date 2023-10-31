@@ -6,7 +6,8 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { USER_ID } from "../firebase/AsyncStorage-Keys";
 
 export type UserProps = FormCandidateData & FormCompanyData & {
-  role: 'candidate' | 'company'
+  role: 'candidate' | 'company',
+  cvUrl?: string
 }
 
 export type UserContextProps = {

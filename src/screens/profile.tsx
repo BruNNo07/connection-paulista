@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Alert, Text,TextInput,TouchableOpacity,View } from 'react-native'
 import { NavMenu } from "../components/navMenu";
@@ -13,7 +13,6 @@ import { ArrowLeft, DownloadSimple } from "phosphor-react-native";
 import { LoadingConteiner } from "../components/LoadingConteiner";
 import * as DocumentPicker from 'expo-document-picker';
 import { UploadToStorage, getDownloadUrl } from "../firebase/functions/storage";
-import { getDownloadURL } from "firebase/storage";
 
 type ProfileProps = UserProps & {
   photoUrl: string
@@ -21,6 +20,8 @@ type ProfileProps = UserProps & {
 
 export function Profile(){
   const navigation = useNavigation()
+
+  const [uploadingFile, setUploadingFile] = useState(false)
 
   const user = useContext(UserContext)
   
@@ -67,8 +68,9 @@ export function Profile(){
     ])
   }
 
-  async function UploadPdf() {p
+  async function UploadPdf() {
     try {
+      setUploadingFile(true)
       const doc = await DocumentPicker.getDocumentAsync({
         type: ['application/pdf'], 
         multiple: false, 
@@ -81,13 +83,17 @@ export function Profile(){
         const fileName = doc.assets[0].name
 
         await UploadToStorage(blob, user?.userId!, fileName)
+        console.log('uploadToStorage Finished')
 
         const downloadUrl = await getDownloadUrl(user?.userId!, fileName)
+        console.log('downloadUrl Finished')
         
         await updateUrlCV(user?.userId!, downloadUrl)
       }
     } catch (error) {
       console.log(error)
+    } finally {
+      setUploadingFile(false)
     }
     
   }
@@ -285,6 +291,13 @@ export function Profile(){
             <TouchableOpacity className="flex-1 items-center justify-center h-16 border border-blue-600 border-dashed" onPress={UploadPdf}>
               <DownloadSimple size={28} color="#4a5bf5"/>
             </TouchableOpacity>
+            
+            {user?.userData?.cvUrl && (
+              <TouchableOpacity className="flex-1 items-center justify-center h-16 border border-blue-600 rounded" onPress={() => navigation.navigate('pdfViewer', {url: user?.userData?.cvUrl!})} disabled={uploadingFile}>
+               {uploadingFile ? (<Text className="text-gray-100 font-bold">uploading...</Text>) : (<Text className="text-gray-100 font-bold">Visualizar CV</Text>)}
+              </TouchableOpacity>
+            )}
+           
             </>
           )}
         </ScrollView>

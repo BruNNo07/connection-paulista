@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "todo-list",
-    "slug": "todo-list",
+    "name": "connection-paulista",
+    "slug": "connection-paulista",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "",
@@ -29,10 +29,16 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.brunno07.connectionpaulista"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "497bcd56-cfd6-4c5c-a1e1-a7ba622a6f7c"
+      }
     }
   }
 }

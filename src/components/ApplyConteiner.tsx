@@ -5,6 +5,7 @@ import { getUserData } from '../firebase/functions/database'
 import { UserProps } from '../context/UserContext'
 import { View } from 'native-base'
 import { DownloadSimple } from 'phosphor-react-native'
+import { useNavigation } from '@react-navigation/native'
 
 type ApplyConteinerProps = {
   userId : string
@@ -12,6 +13,8 @@ type ApplyConteinerProps = {
 
 export function ApplyConteiner({userId}:ApplyConteinerProps){
   const [userData, setUserData] = useState<UserProps | null>(null)
+
+  const navigation = useNavigation()
   
   async function fetchUser(){
     try {
@@ -35,10 +38,10 @@ export function ApplyConteiner({userId}:ApplyConteinerProps){
           <Text className='text-gray-100'>{userData?.email}</Text>
           <Text className='text-gray-100'>Telefone: {userData?.phone}</Text>
         </View>
-        <View className='items-center justify-center'>
+        <TouchableOpacity className='items-center justify-center' onPress={() => navigation.navigate('pdfViewer', { url: userData?.cvUrl!})}>
           <DownloadSimple size={28} color='#4a5bf5'/>
           <Text className='text-gray-100'>Visualizar CV</Text>
-        </View>
+        </TouchableOpacity>
       </View>
     </TouchableOpacity>
   )
